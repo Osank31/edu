@@ -1,9 +1,12 @@
-import { integer, pgTable, text, uuid, timestamp } from 'drizzle-orm/pg-core';
-export const usersTable = pgTable('users_table', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  name: text('name').notNull(),
-  age: integer('age').notNull(),
-  email: text('email').notNull().unique(),
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull()
-});
+import { pgTable, text, uuid, timestamp, json, varchar } from 'drizzle-orm/pg-core';
+
+export const courseTable = pgTable('course_table', {
+    id: uuid().primaryKey().defaultRandom(),
+    title: text().notNull(),
+    description: text().notNull(),
+    instructorId: varchar({length: 255}).notNull(),
+    studentsId: varchar({length: 255}).array().notNull(),
+    sections: json().default([]).notNull(),
+    createdAt: timestamp().defaultNow().notNull(),
+    updatedAt: timestamp().defaultNow().notNull()
+})
