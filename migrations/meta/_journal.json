@@ -8,6 +8,13 @@
       "when": 1753943635701,
       "tag": "0000_lucky_peter_quill",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1753944207821,
+      "tag": "0001_loud_black_bolt",
+      "breakpoints": true
     }
   ]
 }
