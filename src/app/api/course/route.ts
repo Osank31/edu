@@ -4,7 +4,7 @@ import Response from "@/helpers/Response";
 import { courseSchema } from "@/helpers/validators/courseSchema";
 import { db } from "@/config/db";
 import { courseTable, sectionsTable, lectureTable } from "@/config/schema";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, asc, desc, eq, inArray } from "drizzle-orm";
 
 
 async function getCoursesWithSectionsAndLectures(
@@ -16,7 +16,7 @@ async function getCoursesWithSectionsAndLectures(
     ? and(eq(courseTable.instructorId, user.id), eq(courseTable.id, courseId))
     : eq(courseTable.instructorId, user.id);
 
-  const courses = await db.select().from(courseTable).where(courseWhereClause);
+  const courses = await db.select().from(courseTable).where(courseWhereClause).orderBy(desc(courseTable.createdAt));
 
   if (courses.length === 0) return [];
 
@@ -25,14 +25,14 @@ async function getCoursesWithSectionsAndLectures(
   const sections = await db
     .select()
     .from(sectionsTable)
-    .where(inArray(sectionsTable.courseId, courseIds));
+    .where(inArray(sectionsTable.courseId, courseIds)).orderBy(asc(sectionsTable.createdAt));
 
   // 3. Fetch lectures for those sections
   const sectionIds = sections.map(s => s.id);
   const lectures = await db
     .select()
     .from(lectureTable)
-    .where(inArray(lectureTable.sectionId, sectionIds));
+    .where(inArray(lectureTable.sectionId, sectionIds)).orderBy(asc(lectureTable.createdAt));
 
   // 4. Nest lectures into sections
   const sectionsWithLectures = sections.map(section => ({
