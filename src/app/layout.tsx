@@ -48,7 +48,7 @@ export default function RootLayout({
               <UserButton />
             </SignedIn>
           </header> */}
-          <NavBar />
+          {/* <NavBar /> */}
           {children}
         </body>
       </html>
