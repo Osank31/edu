@@ -6,8 +6,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
+import SectionDialog from "./SectionDialog"
+import { ParamValue } from "next/dist/server/request/params"
 
-function SectionDropDown({ sections }: {sections : Section[]}) {
+function SectionDropDown({ sections, courseId }: {sections : Section[], courseId: ParamValue}) {
     return (
         <div>
             {sections && sections.length > 0 ? (
@@ -118,7 +120,7 @@ function SectionDropDown({ sections }: {sections : Section[]}) {
                         </svg>
                     </div>
                     <h3 className="text-lg font-medium text-slate-900 mb-2">No Sections Available</h3>
-                    <Button>Create Section</Button>
+                    <SectionDialog courseId={courseId} />
                 </div>
             )}
         </div>

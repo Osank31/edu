@@ -11,12 +11,12 @@ function Page() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [data, setData] = useState<Classroom | null>(null);
-    const { classroomId } = useParams()
+    const { courseId } = useParams()
 
     useEffect(()=>{
         const fetchData = async ()=>{
             try {
-                const response = await axios.get(`/api/course?courseId=${classroomId}`);
+                const response = await axios.get(`/api/course?courseId=${courseId}`);
                 setData(response.data.data);
                 // console.log('Classroom Data:', response.data.data);
                 
@@ -101,7 +101,7 @@ function Page() {
               </div>
               
               <div className="bg-slate-50 rounded-lg p-6">
-                <SectionDropDown sections={data.sections}/>
+                <SectionDropDown sections={data.sections} courseId={courseId} />
               </div>
             </div>
           </div>
