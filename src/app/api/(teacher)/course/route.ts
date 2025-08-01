@@ -85,6 +85,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     const body = await req.json();
     const user = (await currentUser());
+    // const user = {id: 'user123'}
 
     if (!user) {
         return Response.error(null, "Unauthorized", 401);

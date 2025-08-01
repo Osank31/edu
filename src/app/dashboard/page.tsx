@@ -4,13 +4,16 @@ import { Classroom } from "@/types/classroomsCreated";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import CreateClassroomDialog from "./_components/CreateClassroomDialog";
 
 function DashboardPage() {
+    const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [data, setData] = useState<Classroom[] | null>(null);
 
-    useEffect(()=>{
+    useEffect(() => {
         const fetchClassRoomData = async () => {
             try {
                 const response = await axios.get('/api/course?courseId=all')
@@ -22,8 +25,8 @@ function DashboardPage() {
             }
         }
         fetchClassRoomData();
-    },[])
-    console.log('Data',data)
+    }, [])
+    console.log('Data', data)
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -33,16 +36,21 @@ function DashboardPage() {
     return (
         <div className="min-h-screen p-6">
             <div className="max-w-7xl mx-auto">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">My Classrooms</h1>
-                    <p className="text-gray-600">Manage and access your courses</p>
+                <div className="flex items-center justify-between mb-6">
+                    <div className="mb-8">
+                        <h1 className="text-3xl font-bold text-gray-900 mb-2">My Classrooms</h1>
+                        <p className="text-gray-600">Manage and access your courses</p>
+                    </div>
+                    <div>
+                        <CreateClassroomDialog />
+                    </div>
                 </div>
-                
+
                 {data && data.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {data.map((classroom) => (
-                            <div 
-                                key={classroom.id} 
+                            <div
+                                key={classroom.id}
                                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-200"
                             >
                                 <div className="mb-4">
@@ -53,7 +61,7 @@ function DashboardPage() {
                                         {classroom.description}
                                     </p>
                                 </div>
-                                
+
                                 <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
                                     <span>
                                         {classroom.sections?.length || 0} sections
@@ -62,12 +70,14 @@ function DashboardPage() {
                                         {classroom.studentsId?.length || 0} students
                                     </span>
                                 </div>
-                                
+
                                 <div className="flex items-center justify-between">
                                     <span className="text-xs text-gray-400">
                                         Created {new Date(classroom.createdAt).toLocaleDateString()}
                                     </span>
-                                    <Button>View Course</Button>
+                                    <Button onClick={() => {
+                                        router.push(`/dashboard/classrooms/${classroom.id}`);
+                                    }}>View Course</Button>
                                 </div>
                             </div>
                         ))}
@@ -81,7 +91,7 @@ function DashboardPage() {
                         </div>
                         <h3 className="text-lg font-medium text-gray-900 mb-2">No classrooms found</h3>
                         <p className="text-gray-600 mb-6">Get started by creating your first classroom</p>
-                        <Button>Create Classroom</Button>
+                        <CreateClassroomDialog />
                     </div>
                 )}
             </div>
