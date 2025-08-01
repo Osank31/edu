@@ -51,6 +51,7 @@ async function getCoursesWithSectionsAndLectures(
 
 export async function GET(req: NextRequest) {
     const user = (await currentUser());
+    // const user = {id: 'user123'}
     const { searchParams } = new URL(req.url);
     const courseId = searchParams.get('courseId');
     if (!user) {
@@ -62,9 +63,6 @@ export async function GET(req: NextRequest) {
     if (courseId === 'all') {
         try {
             const result = await getCoursesWithSectionsAndLectures(user);
-            if (result.length === 0) {
-                return Response.error(null, "No courses found", 404);
-            }
             return Response.success(result, "Courses retrieved successfully", 200);
         } catch (error) {
             return Response.error(error, "Internal Server Error", 500);

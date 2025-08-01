@@ -4,6 +4,7 @@
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import { motion } from "motion/react";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 export default function HeroSectionOne() {
   return (
@@ -106,6 +107,7 @@ export default function HeroSectionOne() {
 }
 
 export const Navbar = () => {
+  const router = useRouter()
   return (
     <nav className="flex w-full items-center justify-between border-t border-b border-neutral-200 px-4 py-4 dark:border-neutral-800">
       <div className="flex items-center gap-2">
@@ -122,6 +124,7 @@ export const Navbar = () => {
           </SignUpButton>
         </SignedOut>
         <SignedIn>
+          <Button onClick={() => router.push('/dashboard')}>Dashboard</Button>
           <UserButton />
         </SignedIn>
       </div>
