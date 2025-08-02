@@ -1,3 +1,5 @@
+'use client'
+
 import { Section } from "@/types/classroomsCreated"
 import {
   Accordion,
@@ -9,8 +11,10 @@ import { Button } from "@/components/ui/button"
 import SectionDialog from "./SectionDialog"
 import { ParamValue } from "next/dist/server/request/params"
 import AddLectureDialog from "./AddLectureDialog"
+import { useRouter } from "next/navigation"
 
 function SectionDropDown({ sections, courseId }: {sections : Section[], courseId: ParamValue}) {
+    const router = useRouter()
     return (
         <div>
             {sections && sections.length > 0 ? (
@@ -84,6 +88,10 @@ function SectionDropDown({ sections, courseId }: {sections : Section[], courseId
                                                         <div 
                                                             key={lecture.id}
                                                             className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors duration-200 cursor-pointer group"
+                                                            role="button"
+                                                            onClick={() => {
+                                                                router.push(`/dashboard/classrooms/${courseId}/sections/${section.id}/lectures/${lecture.id}`);
+                                                            }}
                                                         >
                                                             <div className="flex-shrink-0">
                                                                 <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full flex items-center justify-center text-white text-xs font-medium">

@@ -18,7 +18,6 @@ function Page() {
             try {
                 const response = await axios.get(`/api/course?courseId=${courseId}`);
                 setData(response.data.data);
-                // console.log('Classroom Data:', response.data.data);
                 
             } catch (error) {
                 setError("Failed to fetch data");
