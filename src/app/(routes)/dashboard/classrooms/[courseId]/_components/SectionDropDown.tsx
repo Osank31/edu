@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button"
 import SectionDialog from "./SectionDialog"
 import { ParamValue } from "next/dist/server/request/params"
+import AddLectureDialog from "./AddLectureDialog"
 
 function SectionDropDown({ sections, courseId }: {sections : Section[], courseId: ParamValue}) {
     return (
@@ -67,7 +68,7 @@ function SectionDropDown({ sections, courseId }: {sections : Section[], courseId
                                             <p className="text-slate-700 leading-relaxed">
                                                 {section.description}
                                             </p>
-                                            <Button variant="outline">Add Lecture</Button>
+                                            <AddLectureDialog sectionId={section.id} />
                                         </div>
                                         
                                         {section.lectures && section.lectures.length > 0 && (
