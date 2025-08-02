@@ -6,6 +6,7 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import CreateClassroomDialog from "./_components/CreateClassroomDialog";
+import Loading from "../_components/Loading";
 
 function DashboardPage() {
     const router = useRouter();
@@ -28,7 +29,7 @@ function DashboardPage() {
     }, [])
     console.log('Data', data)
     if (loading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
     if (error) {
         return <div>Error: {error}</div>;

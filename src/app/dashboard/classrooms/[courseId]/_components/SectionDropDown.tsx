@@ -67,6 +67,7 @@ function SectionDropDown({ sections, courseId }: {sections : Section[], courseId
                                             <p className="text-slate-700 leading-relaxed">
                                                 {section.description}
                                             </p>
+                                            <Button variant="outline">Add Lecture</Button>
                                         </div>
                                         
                                         {section.lectures && section.lectures.length > 0 && (
@@ -111,6 +112,7 @@ function SectionDropDown({ sections, courseId }: {sections : Section[], courseId
                             </AccordionItem>
                         ))}
                     </Accordion>
+                    <SectionDialog courseId={courseId} />
                 </div>
             ) : (
                 <div className="text-center py-12">
