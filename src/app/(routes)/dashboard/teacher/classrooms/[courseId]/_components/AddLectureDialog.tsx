@@ -15,7 +15,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"   // <--- Import Textarea here
 import axios from "axios"
-import { ParamValue } from "next/dist/server/request/params"
 import { useState } from "react"
 
 function AddLectureDialog({ sectionId }: { sectionId: string }) {

@@ -90,7 +90,7 @@ function SectionDropDown({ sections, courseId }: {sections : Section[], courseId
                                                             className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors duration-200 cursor-pointer group"
                                                             role="button"
                                                             onClick={() => {
-                                                                router.push(`/dashboard/classrooms/${courseId}/sections/${section.id}/lectures/${lecture.id}`);
+                                                                router.push(`/dashboard/teacher/classrooms/${courseId}/sections/${section.id}/lectures/${lecture.id}`);
                                                             }}
                                                         >
                                                             <div className="flex-shrink-0">

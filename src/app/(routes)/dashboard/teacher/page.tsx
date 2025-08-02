@@ -77,7 +77,7 @@ function DashboardPage() {
                                         Created {new Date(classroom.createdAt).toLocaleDateString()}
                                     </span>
                                     <Button onClick={() => {
-                                        router.push(`/dashboard/classrooms/${classroom.id}`);
+                                        router.push(`/dashboard/teacher/classrooms/${classroom.id}`);
                                     }}>View Course</Button>
                                 </div>
                             </div>

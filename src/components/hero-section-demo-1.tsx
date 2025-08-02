@@ -124,7 +124,7 @@ export const Navbar = () => {
           </SignUpButton>
         </SignedOut>
         <SignedIn>
-          <Button onClick={() => router.push('/dashboard')}>Dashboard</Button>
+          <Button onClick={() => router.push('/dashboard/teacher')}>Dashboard</Button>
           <UserButton />
         </SignedIn>
       </div>
