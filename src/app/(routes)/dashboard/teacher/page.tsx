@@ -76,7 +76,7 @@ function DashboardPage() {
                                     <span className="text-xs text-gray-400">
                                         Created {new Date(classroom.createdAt).toLocaleDateString()}
                                     </span>
-                                    <Button onClick={() => {
+                                    <Button className="cursor-pointer" onClick={() => {
                                         router.push(`/dashboard/teacher/classrooms/${classroom.id}`);
                                     }}>View Course</Button>
                                 </div>
