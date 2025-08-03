@@ -35,6 +35,7 @@ export default function Page() {
     }, [lectureId]);
 
     const embedUrl = lectureData?.videoLink ? getEmbedUrlFromYouTubeLink(lectureData.videoLink) : null;
+    console.log(lectureData)
 
     if (loading) {
         return <Loading />;
@@ -47,18 +48,27 @@ export default function Page() {
     return (
         <div>
             {embedUrl ? (
-                <iframe
-                    width="560"
-                    height="315"
-                    src={embedUrl}
-                    title="YouTube video player"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                ></iframe>
+                <div>
+                    <iframe
+                        width="560"
+                        height="315"
+                        src={embedUrl}
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
+                    ></iframe>
+                    <h1 className="text-2xl font-bold mt-4">{lectureData?.title}</h1>
+                    <p className="mt-2">{lectureData?.description}</p>
+                    <span>
+                        {lectureData?.createdAt
+                            ? new Date(lectureData.createdAt).toDateString()
+                            : 'Date not available'}
+                    </span>
+                </div>
             ) : (
-                <div className="text-red-500">Invalid or missing video link</div>
+                <div>Invalid or missing video link</div>
             )}
         </div>
     );

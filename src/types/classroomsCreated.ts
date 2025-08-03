@@ -25,7 +25,7 @@ export type Lecture = {
     title: string;
     description: string;
     videoLink: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }
 
