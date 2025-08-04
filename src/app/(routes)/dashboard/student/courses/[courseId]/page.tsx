@@ -1,18 +1,30 @@
 'use client';
 
 import Loading from "@/app/_components/Loading";
+import { Button } from "@/components/ui/button";
 import { Classroom } from "@/types/classroomsCreated";
+import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function Page() {
+    const { user } = useUser();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [course, setCourse] = useState<Classroom | null>(null);
-    const {courseId} = useParams();
-
-    useEffect(()=>{
+    const { courseId } = useParams();
+    
+    const handleEnroll = async () => {
+        try {
+            await axios.post(`/api/courses/enroll`, {courseId});
+            window.location.reload();
+        } catch (error) {
+            setError("Failed to enroll in the course. Please try again later.");
+            window.location.reload();
+        }
+    }
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`/api/courses?id=${courseId}`)
@@ -26,7 +38,7 @@ function Page() {
             }
         }
         fetchData()
-    },[])
+    }, [])
     console.log(course);
     if (loading) {
         return <Loading />
@@ -34,7 +46,7 @@ function Page() {
     if (error) {
         return <div className="flex items-center justify-center h-screen text-red-500">{error}</div>;
     }
-    
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
             <div className="max-w-6xl mx-auto">
@@ -51,20 +63,26 @@ function Page() {
                                             </svg>
                                         </div>
                                         <div>
-                                            <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">
-                                                Enrolled Course
-                                            </span>
+                                            {user && course.studentsId.includes(user.id) ?
+                                                <div>
+                                                    <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">Enrolled Course</span>
+                                                </div>
+                                                :
+                                                <div>
+                                                    <span className="px-3 py-1 bg-red-100 text-red-700 text-xs font-medium rounded-full">Not Enrolled</span>
+                                                    <Button variant="outline" className="ml-2" onClick={handleEnroll}>Enroll Now</Button>
+                                                </div>}
                                         </div>
                                     </div>
-                                    
+
                                     <h1 className="text-4xl font-bold text-slate-900 mb-4 leading-tight">
                                         {course.title}
                                     </h1>
-                                    
+
                                     <p className="text-lg text-slate-600 leading-relaxed max-w-3xl">
                                         {course.description}
                                     </p>
-                                    
+
                                     <div className="flex items-center gap-6 mt-6 text-sm text-slate-500">
                                         <div className="flex items-center gap-2">
                                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -99,7 +117,7 @@ function Page() {
                                 </div>
                                 <h2 className="text-2xl font-bold text-slate-900">Course Content</h2>
                             </div>
-                            
+
                             <div className="bg-slate-50 rounded-lg p-6">
                                 {course.sections && course.sections.length > 0 ? (
                                     <div className="space-y-4">
@@ -119,7 +137,7 @@ function Page() {
                                                         {section.lectures?.length || 0} lectures
                                                     </div>
                                                 </div>
-                                                
+
                                                 {section.lectures && section.lectures.length > 0 && (
                                                     <div className="mt-4 ml-11 space-y-2">
                                                         {section.lectures.map((lecture) => (
