@@ -5,19 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Classroom } from "@/types/classroomsCreated";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function Page() {
+    const router = useRouter();
     const { user } = useUser();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [course, setCourse] = useState<Classroom | null>(null);
     const { courseId } = useParams();
-    
+
     const handleEnroll = async () => {
         try {
-            await axios.post(`/api/courses/enroll`, {courseId});
+            await axios.post(`/api/courses/enroll`, { courseId });
             window.location.reload();
         } catch (error) {
             setError("Failed to enroll in the course. Please try again later.");
@@ -141,11 +142,16 @@ function Page() {
                                                 {section.lectures && section.lectures.length > 0 && (
                                                     <div className="mt-4 ml-11 space-y-2">
                                                         {section.lectures.map((lecture) => (
-                                                            <div key={lecture.id} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                                                                <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m6-4a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                </svg>
-                                                                <span className="text-sm text-slate-700">{lecture.title}</span>
+                                                            <div key={lecture.id} className="flex justify-between gap-3 p-3 bg-slate-50 rounded-lg">
+                                                                <div className="flex items-center gap-2">
+                                                                    <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1m6-4a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                                    </svg>
+                                                                    <span className="text-sm text-slate-700">{lecture.title}</span>
+                                                                </div>
+                                                                <Button variant={'link'} onClick={()=>{
+                                                                    router.push(`/dashboard/student/courses/${courseId}/section/${section.id}/lecture/${lecture.id}`)
+                                                                }}>Watch Now</Button>
                                                             </div>
                                                         ))}
                                                     </div>
