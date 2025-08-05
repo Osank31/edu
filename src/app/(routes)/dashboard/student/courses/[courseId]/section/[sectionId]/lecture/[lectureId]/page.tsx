@@ -5,6 +5,7 @@ import { Lecture } from "@/types/classroomsCreated";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import ReactPlayer from 'react-player'
 
 function getEmbedUrlFromYouTubeLink(link: string): string | null {
     const videoIdMatch = link.match(
@@ -19,6 +20,14 @@ export default function Page() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [lectureData, setLectureData] = useState<Lecture | null>(null);
+
+    const playHandler = async () => {
+        console.log('Play')
+    }
+
+    const pauseHandler = async () => {
+        console.log('Pause')
+    }
 
     useEffect(() => {
         const fetchLectureData = async () => {
@@ -53,7 +62,7 @@ export default function Page() {
                         {/* Video Section */}
                         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
                             <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-                                <iframe
+                                {/* <iframe
                                     className="absolute top-0 left-0 w-full h-full"
                                     src={embedUrl}
                                     title="YouTube video player"
@@ -61,7 +70,13 @@ export default function Page() {
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                     referrerPolicy="strict-origin-when-cross-origin"
                                     allowFullScreen
-                                ></iframe>
+                                ></iframe> */}
+                                <div className="absolute top-0 left-0 w-full h-full">
+                                    <ReactPlayer src={embedUrl} width={'100%'} height={'100%'} 
+                                        onPlay={playHandler}
+                                        onPause={pauseHandler}
+                                    />
+                                </div>
                             </div>
                         </div>
 
@@ -88,7 +103,7 @@ export default function Page() {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             {/* Description */}
                             {lectureData?.description && (
                                 <div className="border-t border-gray-100 pt-6">
