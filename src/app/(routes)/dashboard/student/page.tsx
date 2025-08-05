@@ -1,11 +1,11 @@
 'use client';
 
-import Loading from "@/app/_components/Loading";
-import { Classroom } from "@/types/classroomsCreated";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import Loading from '@/app/_components/Loading';
+import { Classroom } from '@/types/classroomsCreated';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 function Page() {
     const router = useRouter();
@@ -13,26 +13,28 @@ function Page() {
     const [error, setError] = useState<string | null>(null);
     const [coursesArray, setCoursesArray] = useState<Classroom[]>([]);
 
-    useEffect(()=>{
-       const fetchData = async () => {
+    useEffect(() => {
+        const fetchData = async () => {
             try {
                 const response = await axios.get('/api/courses?id=all');
                 setCoursesArray(response.data.data);
             } catch (error) {
-                setError("Failed to fetch courses");
-            } finally { 
+                setError('Failed to fetch courses');
+            } finally {
                 setLoading(false);
             }
-       } 
-       fetchData();
-    },[])
+        };
+        fetchData();
+    }, []);
     console.log(coursesArray);
 
     if (loading) {
-        return <Loading />
+        return <Loading />;
     }
     if (error) {
-        return <div className="flex items-center justify-center h-screen text-red-500">{error}</div>;
+        return (
+            <div className="flex items-center justify-center h-screen text-red-500">{error}</div>
+        );
     }
 
     return (
@@ -60,21 +62,22 @@ function Page() {
                                 </div>
 
                                 <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-                                    <span>
-                                        {course.sections?.length || 0} sections
-                                    </span>
-                                    <span>
-                                        {course.studentsId?.length || 0} students
-                                    </span>
+                                    <span>{course.sections?.length || 0} sections</span>
+                                    <span>{course.studentsId?.length || 0} students</span>
                                 </div>
 
                                 <div className="flex items-center justify-between">
                                     <span className="text-xs text-gray-400">
                                         Created {new Date(course.createdAt).toLocaleDateString()}
                                     </span>
-                                    <Button className="cursor-pointer" onClick={() => {
-                                        router.push(`/dashboard/student/courses/${course.id}`);
-                                    }}>View Course</Button>
+                                    <Button
+                                        className="cursor-pointer"
+                                        onClick={() => {
+                                            router.push(`/dashboard/student/courses/${course.id}`);
+                                        }}
+                                    >
+                                        View Course
+                                    </Button>
                                 </div>
                             </div>
                         ))}
@@ -82,12 +85,24 @@ function Page() {
                 ) : (
                     <div className="text-center py-12">
                         <div className="mx-auto h-24 w-24 text-gray-300 mb-4">
-                            <svg className="h-full w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                            <svg
+                                className="h-full w-full"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={1}
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                                />
                             </svg>
                         </div>
                         <h3 className="text-lg font-medium text-gray-900 mb-2">No courses found</h3>
-                        <p className="text-gray-600 mb-6">You are not enrolled in any courses yet</p>
+                        <p className="text-gray-600 mb-6">
+                            You are not enrolled in any courses yet
+                        </p>
                     </div>
                 )}
             </div>

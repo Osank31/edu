@@ -1,4 +1,4 @@
-export type Classroom={
+export type Classroom = {
     id: string;
     title: string;
     description: string;
@@ -7,7 +7,7 @@ export type Classroom={
     createdAt: Date;
     updatedAt: Date;
     sections: Section[];
-}
+};
 
 export type Section = {
     id: string;
@@ -17,7 +17,7 @@ export type Section = {
     createdAt: Date;
     updatedAt: Date;
     lectures: Lecture[];
-}
+};
 
 export type Lecture = {
     id: string;
@@ -27,5 +27,4 @@ export type Lecture = {
     videoLink: string;
     createdAt: string;
     updatedAt: string;
-}
-
+};

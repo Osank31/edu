@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogClose,
@@ -8,12 +8,12 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"   // <--- Import Textarea here
-import axios from "axios"
-import { useState } from "react"
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea'; // <--- Import Textarea here
+import axios from 'axios';
+import { useState } from 'react';
 
 function CreateClassroomDialog() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,20 +24,20 @@ function CreateClassroomDialog() {
         setIsSubmitting(true);
         setError(null);
         const formData = new FormData(e.currentTarget);
-        const title = formData.get("title") as string;
-        const description = formData.get("description") as string;
+        const title = formData.get('title') as string;
+        const description = formData.get('description') as string;
 
         try {
-            const response = await axios.post("/api/course", { title, description });
+            const response = await axios.post('/api/course', { title, description });
             if (response.status === 201) {
-                alert("Classroom created successfully");
+                alert('Classroom created successfully');
                 window.location.reload();
             } else {
-                setError("Failed to create classroom");
+                setError('Failed to create classroom');
             }
         } catch (error) {
-            console.error("Error creating classroom:", error);
-            setError("Error creating classroom");
+            console.error('Error creating classroom:', error);
+            setError('Error creating classroom');
         } finally {
             setIsSubmitting(false);
         }
@@ -59,7 +59,12 @@ function CreateClassroomDialog() {
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-2">
                             <Label htmlFor="title">Title</Label>
-                            <Input id="title" name="title" placeholder="Programming in C..." required />
+                            <Input
+                                id="title"
+                                name="title"
+                                placeholder="Programming in C..."
+                                required
+                            />
                         </div>
                         <div className="flex flex-col gap-2">
                             <Label htmlFor="description">Description</Label>
@@ -68,7 +73,7 @@ function CreateClassroomDialog() {
                                 name="description"
                                 placeholder="Enter a brief description..."
                                 required
-                                className="min-h-[6rem]"  // adjust height as needed
+                                className="min-h-[6rem]" // adjust height as needed
                             />
                         </div>
                     </div>
@@ -80,13 +85,13 @@ function CreateClassroomDialog() {
                             </Button>
                         </DialogClose>
                         <Button type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? "Saving..." : "Save changes"}
+                            {isSubmitting ? 'Saving...' : 'Save changes'}
                         </Button>
                     </DialogFooter>
                 </form>
             </DialogContent>
         </Dialog>
-    )
+    );
 }
 
 export default CreateClassroomDialog;
