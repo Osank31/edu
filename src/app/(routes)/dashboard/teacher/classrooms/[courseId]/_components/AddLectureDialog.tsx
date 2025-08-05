@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button';
 import {
     Dialog,
     DialogClose,
@@ -10,12 +10,12 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"   // <--- Import Textarea here
-import axios from "axios"
-import { useState } from "react"
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea'; // <--- Import Textarea here
+import axios from 'axios';
+import { useState } from 'react';
 
 function AddLectureDialog({ sectionId }: { sectionId: string }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,21 +26,26 @@ function AddLectureDialog({ sectionId }: { sectionId: string }) {
         setIsSubmitting(true);
         setError(null);
         const formData = new FormData(e.currentTarget);
-        const title = formData.get("title") as string;
-        const description = formData.get("description") as string;
-        const videoLink = formData.get("videoLink") as string;
+        const title = formData.get('title') as string;
+        const description = formData.get('description') as string;
+        const videoLink = formData.get('videoLink') as string;
 
         try {
-            const response = await axios.post("/api/lecture", { title, description, sectionId, videoLink });
+            const response = await axios.post('/api/lecture', {
+                title,
+                description,
+                sectionId,
+                videoLink,
+            });
             if (response.status === 201) {
-                alert("Lecture created successfully");
+                alert('Lecture created successfully');
                 window.location.reload();
             } else {
-                setError("Failed to create section");
+                setError('Failed to create section');
             }
         } catch (error) {
-            console.error("Error creating section:", error);
-            setError("Error creating section");
+            console.error('Error creating section:', error);
+            setError('Error creating section');
         } finally {
             setIsSubmitting(false);
         }
@@ -62,7 +67,12 @@ function AddLectureDialog({ sectionId }: { sectionId: string }) {
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col gap-2">
                             <Label htmlFor="title">Title</Label>
-                            <Input id="title" name="title" placeholder="Programming in C..." required />
+                            <Input
+                                id="title"
+                                name="title"
+                                placeholder="Programming in C..."
+                                required
+                            />
                         </div>
                         <div className="flex flex-col gap-2">
                             <Label htmlFor="description">Description</Label>
@@ -93,12 +103,12 @@ function AddLectureDialog({ sectionId }: { sectionId: string }) {
                             </Button>
                         </DialogClose>
                         <Button type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? "Saving..." : "Save changes"}
+                            {isSubmitting ? 'Saving...' : 'Save changes'}
                         </Button>
                     </DialogFooter>
                 </form>
             </DialogContent>
         </Dialog>
-    )
+    );
 }
-export default AddLectureDialog
+export default AddLectureDialog;
