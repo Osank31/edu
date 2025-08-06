@@ -34,6 +34,7 @@ export const courseTable = pgTable('course_table', {
     id: uuid().primaryKey().defaultRandom(),
     title: varchar({ length: 50 }).notNull(),
     description: text().notNull(),
+    thumbnail: text().default('link'),
     instructorId: varchar({ length: 255 }).notNull(),
     studentsId: varchar({ length: 255 }).array().default([]),
     createdAt: timestamp().defaultNow().notNull(),
