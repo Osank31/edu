@@ -2,6 +2,7 @@ export type Classroom = {
     id: string;
     title: string;
     description: string;
+    thumbnail:string;
     instructorId: string;
     studentsId: string[];
     createdAt: Date;
