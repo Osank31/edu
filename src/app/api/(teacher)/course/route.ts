@@ -5,6 +5,8 @@ import { courseSchema } from '@/helpers/validators/courseSchema';
 import { db } from '@/config/db';
 import { courseTable, sectionsTable, lectureTable } from '@/config/schema';
 import { and, asc, desc, eq, inArray } from 'drizzle-orm';
+import cloudinary from '@/lib/cloudinary';
+import { Readable } from 'stream';
 
 async function getCoursesWithSectionsAndLectures(user: User, courseId?: string) {
     // 1. Fetch courses for instructor, optionally filter by courseId
@@ -83,18 +85,56 @@ export async function GET(req: NextRequest) {
     }
 }
 
+
+async function fileToBuffer(file: File): Promise<Buffer> {
+    const arrayBuffer = await file.arrayBuffer();
+    return Buffer.from(arrayBuffer);
+}
+
+function uploadImageToCloudinary(buffer: Buffer) {
+    return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+            { folder: 'courses' }, // optional: cloudinary folder
+            (error, result) => {
+                if (error) return reject(error);
+                resolve(result);
+            }
+        );
+        Readable.from(buffer).pipe(stream);
+    });
+}
+
 export async function POST(req: NextRequest) {
-    const body = await req.json();
+    //const body = await req.json();
     const user = await currentUser();
     // const user = {id: 'user123'}
+
+    const formData = await req.formData();
+
+    const title = formData.get('title') as string;
+    const description = formData.get('description') as string;
+    const image = formData.get('image') as File | null;
 
     if (!user) {
         return Response.error(null, 'Unauthorized', 401);
     }
 
+    let imageUrl: string | undefined = undefined;
+
+    if(!image) {
+        return Response.error(null, 'Image not uploaded', 400)
+    }
+
+    if (image) {
+        const buffer = await fileToBuffer(image);
+        const uploadResult = await uploadImageToCloudinary(buffer);
+        imageUrl = (uploadResult as any).secure_url;
+    }
+
     const dataToBeSaved = {
-        title: body.title,
-        description: body.description,
+        title,
+        description,
+        thumbnail: imageUrl,
         instructorId: user.id,
         createdAt: new Date(),
         updatedAt: new Date(),
