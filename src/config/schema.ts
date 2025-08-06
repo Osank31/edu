@@ -45,7 +45,7 @@ export const sectionsTable = pgTable('sections_table', {
     id: uuid().primaryKey().defaultRandom(),
     courseId: uuid()
         .notNull()
-        .references(() => courseTable.id),
+        .references(() => courseTable.id, {onDelete: 'cascade'}),
     title: varchar({ length: 50 }).notNull(),
     description: text().notNull(),
     createdAt: timestamp().defaultNow().notNull(),
@@ -56,7 +56,7 @@ export const lectureTable = pgTable('lecture_table', {
     id: uuid().primaryKey().defaultRandom(),
     sectionId: uuid()
         .notNull()
-        .references(() => sectionsTable.id),
+        .references(() => sectionsTable.id, {onDelete: 'cascade'}),
     title: varchar({ length: 50 }).notNull(),
     description: text().notNull(),
     videoLink: text().notNull(),
