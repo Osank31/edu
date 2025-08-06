@@ -84,17 +84,22 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-    const body = await req.json();
+    //const body = await req.json();
     const user = await currentUser();
     // const user = {id: 'user123'}
+
+    const formData = await req.formData();
+
+    const title = formData.get('title') as string;
+    const description = formData.get('description') as string;
 
     if (!user) {
         return Response.error(null, 'Unauthorized', 401);
     }
 
     const dataToBeSaved = {
-        title: body.title,
-        description: body.description,
+        title,
+        description,
         instructorId: user.id,
         createdAt: new Date(),
         updatedAt: new Date(),

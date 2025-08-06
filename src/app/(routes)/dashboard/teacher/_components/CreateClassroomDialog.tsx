@@ -24,11 +24,15 @@ function CreateClassroomDialog() {
         setIsSubmitting(true);
         setError(null);
         const formData = new FormData(e.currentTarget);
-        const title = formData.get('title') as string;
-        const description = formData.get('description') as string;
+        // const title = formData.get('title') as string;
+        // const description = formData.get('description') as string;
 
         try {
-            const response = await axios.post('/api/course', { title, description });
+            const response = await axios.post('/api/course', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
             if (response.status === 201) {
                 alert('Classroom created successfully');
                 window.location.reload();
@@ -75,6 +79,10 @@ function CreateClassroomDialog() {
                                 required
                                 className="min-h-[6rem]" // adjust height as needed
                             />
+                        </div>
+                        <div>
+                            <Label htmlFor="image">Cover Image</Label>
+                            <Input id="image" name="image" type="file" accept="image/*" />
                         </div>
                     </div>
                     {error && <p className="text-red-500 text-sm">{error}</p>}
