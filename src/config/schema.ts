@@ -30,6 +30,14 @@ import { title } from 'process';
 //     }
 // }
 
+export const userTable = pgTable('user_table', {
+    id: varchar({ length: 255 }).notNull(),
+    username: varchar({length: 500}).notNull(),
+    email: varchar({length: 255}).notNull(),
+    createdAt: timestamp().defaultNow().notNull(),
+    updatedAt: timestamp().defaultNow().notNull(),
+})
+
 export const courseTable = pgTable('course_table', {
     id: uuid().primaryKey().defaultRandom(),
     title: varchar({ length: 50 }).notNull(),
