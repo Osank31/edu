@@ -10,9 +10,12 @@ import { Readable } from 'stream';
 
 async function getCoursesWithSectionsAndLectures(user: User, courseId?: string) {
     // 1. Fetch courses for instructor, optionally filter by courseId
+    const userUUIDs = await db.select({ id: userTable.id }).from(userTable).where(eq(userTable.userId, user.id))
+    const userUUID = userUUIDs[0]?.id;
+
     const courseWhereClause = courseId
-        ? and(eq(courseTable.instructorId, user.id), eq(courseTable.id, courseId))
-        : eq(courseTable.instructorId, user.id);
+        ? and(eq(courseTable.instructorId, userUUID), eq(courseTable.id, courseId))
+        : eq(courseTable.instructorId, userUUID);
 
     const courses = await db
         .select()
