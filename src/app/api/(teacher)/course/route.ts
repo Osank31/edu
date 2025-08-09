@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 import Response from '@/helpers/Response';
 import { courseSchema } from '@/helpers/validators/courseSchema';
 import { db } from '@/config/db';
-import { courseTable, sectionsTable, lectureTable } from '@/config/schema';
+import { courseTable, sectionsTable, lectureTable, userTable } from '@/config/schema';
 import { and, asc, desc, eq, inArray } from 'drizzle-orm';
 import cloudinary from '@/lib/cloudinary';
 import { Readable } from 'stream';
@@ -55,7 +55,6 @@ async function getCoursesWithSectionsAndLectures(user: User, courseId?: string) 
 
 export async function GET(req: NextRequest) {
     const user = await currentUser();
-    // const user = {id: 'user123'}
     const { searchParams } = new URL(req.url);
     const courseId = searchParams.get('courseId');
     if (!user) {
@@ -94,9 +93,12 @@ async function fileToBuffer(file: File): Promise<Buffer> {
 function uploadImageToCloudinary(buffer: Buffer) {
     return new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
-            { folder: 'courses' }, // optional: cloudinary folder
+            { folder: 'courses' },
             (error, result) => {
-                if (error) return reject(error);
+                if (error) {
+                    console.error('Cloudinary upload error:', error);
+                    return reject(error);
+                }
                 resolve(result);
             }
         );
@@ -105,9 +107,7 @@ function uploadImageToCloudinary(buffer: Buffer) {
 }
 
 export async function POST(req: NextRequest) {
-    //const body = await req.json();
     const user = await currentUser();
-    // const user = {id: 'user123'}
 
     const formData = await req.formData();
 
@@ -119,23 +119,39 @@ export async function POST(req: NextRequest) {
         return Response.error(null, 'Unauthorized', 401);
     }
 
+    const userUUIDs = await db.select({ id: userTable.id }).from(userTable).where(eq(userTable.userId, user.id))
+    const userUUID = userUUIDs[0]?.id;
+
+    if (!userUUID) {
+        console.error('User not found in database:', user.id);
+        return Response.error(null, 'User not found', 404);
+    }
+
+    console.log(userUUID);
+
     let imageUrl: string | undefined = undefined;
 
-    if(!image) {
+    if (!image) {
         return Response.error(null, 'Image not uploaded', 400)
     }
 
     if (image) {
         const buffer = await fileToBuffer(image);
-        const uploadResult = await uploadImageToCloudinary(buffer);
-        imageUrl = (uploadResult as any).secure_url;
+        try {
+            const uploadResult = await uploadImageToCloudinary(buffer);
+            imageUrl = (uploadResult as any).secure_url;
+        } catch (error) {
+            console.error('Image upload failed:', error);
+            return Response.error(null, 'Image upload failed', 500);
+        }
     }
+
 
     const dataToBeSaved = {
         title,
         description,
         thumbnail: imageUrl,
-        instructorId: user.id,
+        instructorId: userUUID,
         createdAt: new Date(),
         updatedAt: new Date(),
     };
@@ -151,6 +167,7 @@ export async function POST(req: NextRequest) {
 
         return Response.success(result[0], 'Course created successfully', 201);
     } catch (error) {
+        console.error('🔥 POST /course error:', error);
         return Response.error(error, 'Internal Server Error', 500);
     }
 }
