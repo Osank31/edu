@@ -8,3 +8,5 @@
 6. Using webhooks using clerks -------------------------------------------------  Done
 7. Adding payment gateways for enrollment
 8. Ability to upload entire Playlist
+9. Search course ability
+10. pagination

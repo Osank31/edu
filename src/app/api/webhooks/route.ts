@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
             }
             const user = await db.select().from(userTable).where(eq(userTable.email, evt.data.email_addresses[0].email_address))
             if (user.length > 0) {
-                return new Response('User already exists', { status: 409 });
+                return new Response('User already exists', { status: 200 });
             }
             const result = await db.insert(userTable).values(data).returning();
             return new Response('User created', { status: 201 });
