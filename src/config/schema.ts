@@ -31,11 +31,11 @@ import { title } from 'process';
 // }
 
 export const userTable = pgTable('user_table', {
-    id: varchar({ length: 255 }).notNull(),
-    username: varchar({length: 500}).notNull(),
-    email: varchar({length: 255}).notNull(),
-    createdAt: timestamp().defaultNow().notNull(),
-    updatedAt: timestamp().defaultNow().notNull(),
+    id: varchar({ length: 255 }).notNull().default(''),
+    username: varchar({length: 500}).notNull().default(''),
+    email: varchar({length: 255}).notNull().default(''),
+    createdAt: timestamp().defaultNow().notNull().defaultNow(),
+    updatedAt: timestamp().defaultNow().notNull().defaultNow(),
 })
 
 export const courseTable = pgTable('course_table', {
