@@ -47,6 +47,7 @@ export const courseTable = pgTable('course_table', {
     studentsId: varchar({ length: 255 }).array().default([]),
     createdAt: timestamp().defaultNow().notNull(),
     updatedAt: timestamp().defaultNow().notNull(),
+    userId: varchar({length: 255}).notNull().references(()=>userTable.id, {onDelete: 'cascade'})
 });
 
 export const sectionsTable = pgTable('sections_table', {
