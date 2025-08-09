@@ -50,8 +50,9 @@ export default function HeroSectionOne() {
                     }}
                     className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600 dark:text-neutral-400"
                 >
-                    Connect teachers and students in a seamless learning environment. Create courses, 
-                    manage classrooms, and track progress all in one platform designed for modern education.
+                    Connect teachers and students in a seamless learning environment. Create
+                    courses, manage classrooms, and track progress all in one platform designed for
+                    modern education.
                 </motion.p>
                 <motion.div
                     initial={{
@@ -79,7 +80,7 @@ export default function HeroSectionOne() {
                         </SignUpButton>
                     </SignedOut>
                     <SignedIn>
-                        <Button 
+                        <Button
                             onClick={() => router.push('/dashboard/student')}
                             className="w-60 transform rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-700"
                         >
@@ -113,19 +114,28 @@ export default function HeroSectionOne() {
                                     Interactive Learning Dashboard
                                 </h3>
                                 <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
-                                    Manage courses, track progress, and engage with students in real-time
+                                    Manage courses, track progress, and engage with students in
+                                    real-time
                                 </p>
                                 <div className="flex justify-center space-x-4 pt-4">
                                     <div className="bg-white dark:bg-gray-700 rounded-lg p-3 shadow-md">
-                                        <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Active Students</div>
-                                        <div className="text-2xl font-bold text-blue-600">1,247</div>
+                                        <div className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                                            Active Students
+                                        </div>
+                                        <div className="text-2xl font-bold text-blue-600">
+                                            1,247
+                                        </div>
                                     </div>
                                     <div className="bg-white dark:bg-gray-700 rounded-lg p-3 shadow-md">
-                                        <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Courses</div>
+                                        <div className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                                            Courses
+                                        </div>
                                         <div className="text-2xl font-bold text-green-600">156</div>
                                     </div>
                                     <div className="bg-white dark:bg-gray-700 rounded-lg p-3 shadow-md">
-                                        <div className="text-sm font-medium text-gray-600 dark:text-gray-300">Teachers</div>
+                                        <div className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                                            Teachers
+                                        </div>
                                         <div className="text-2xl font-bold text-purple-600">89</div>
                                     </div>
                                 </div>
