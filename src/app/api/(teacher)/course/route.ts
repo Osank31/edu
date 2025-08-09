@@ -90,6 +90,7 @@ export async function GET(req: NextRequest) {
     }
 }
 
+
 async function fileToBuffer(file: File): Promise<Buffer> {
     const arrayBuffer = await file.arrayBuffer();
     return Buffer.from(arrayBuffer);
@@ -97,13 +98,16 @@ async function fileToBuffer(file: File): Promise<Buffer> {
 
 function uploadImageToCloudinary(buffer: Buffer) {
     return new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream({ folder: 'courses' }, (error, result) => {
-            if (error) {
-                console.error('Cloudinary upload error:', error);
-                return reject(error);
+        const stream = cloudinary.uploader.upload_stream(
+            { folder: 'courses' },
+            (error, result) => {
+                if (error) {
+                    console.error('Cloudinary upload error:', error);
+                    return reject(error);
+                }
+                resolve(result);
             }
-            resolve(result);
-        });
+        );
         Readable.from(buffer).pipe(stream);
     });
 }
@@ -121,10 +125,7 @@ export async function POST(req: NextRequest) {
         return Response.error(null, 'Unauthorized', 401);
     }
 
-    const userUUIDs = await db
-        .select({ id: userTable.id })
-        .from(userTable)
-        .where(eq(userTable.userId, user.id));
+    const userUUIDs = await db.select({ id: userTable.id }).from(userTable).where(eq(userTable.userId, user.id))
     const userUUID = userUUIDs[0]?.id;
 
     if (!userUUID) {
@@ -137,7 +138,7 @@ export async function POST(req: NextRequest) {
     let imageUrl: string | undefined = undefined;
 
     if (!image) {
-        return Response.error(null, 'Image not uploaded', 400);
+        return Response.error(null, 'Image not uploaded', 400)
     }
 
     if (image) {
@@ -150,6 +151,7 @@ export async function POST(req: NextRequest) {
             return Response.error(null, 'Image upload failed', 500);
         }
     }
+
 
     const dataToBeSaved = {
         title,

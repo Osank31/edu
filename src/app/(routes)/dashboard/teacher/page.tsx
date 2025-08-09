@@ -64,14 +64,12 @@ function DashboardPage() {
                                             onError={(e) => {
                                                 const target = e.target as HTMLImageElement;
                                                 target.style.display = 'none';
-                                                target.nextElementSibling?.classList.remove(
-                                                    'hidden'
-                                                );
+                                                target.nextElementSibling?.classList.remove('hidden');
                                             }}
                                         />
                                     ) : null}
                                     {/* Fallback placeholder */}
-                                    <div
+                                    <div 
                                         className={`${classroom.thumbnail && classroom.thumbnail !== 'link' ? 'hidden' : ''} absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-600 flex items-center justify-center`}
                                     >
                                         <div className="text-white text-center">
@@ -110,34 +108,14 @@ function DashboardPage() {
                                     <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
                                         <div className="flex items-center gap-4">
                                             <span className="flex items-center gap-1">
-                                                <svg
-                                                    className="h-4 w-4"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                                                    />
+                                                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                                 </svg>
                                                 {classroom.sections?.length || 0} sections
                                             </span>
                                             <span className="flex items-center gap-1">
-                                                <svg
-                                                    className="h-4 w-4"
-                                                    fill="none"
-                                                    viewBox="0 0 24 24"
-                                                    stroke="currentColor"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth={2}
-                                                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
-                                                    />
+                                                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
                                                 </svg>
                                                 {classroom.studentsId?.length || 0} students
                                             </span>
@@ -146,8 +124,7 @@ function DashboardPage() {
 
                                     <div className="flex items-center justify-between">
                                         <span className="text-xs text-gray-400">
-                                            Created{' '}
-                                            {new Date(classroom.createdAt).toLocaleDateString()}
+                                            Created {new Date(classroom.createdAt).toLocaleDateString()}
                                         </span>
                                         <Button
                                             className="cursor-pointer"

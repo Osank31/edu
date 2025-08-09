@@ -1,62 +1,62 @@
 {
-    "version": "7",
-    "dialect": "postgresql",
-    "entries": [
-        {
-            "idx": 0,
-            "version": "7",
-            "when": 1753943635701,
-            "tag": "0000_lucky_peter_quill",
-            "breakpoints": true
-        },
-        {
-            "idx": 1,
-            "version": "7",
-            "when": 1753944207821,
-            "tag": "0001_loud_black_bolt",
-            "breakpoints": true
-        },
-        {
-            "idx": 2,
-            "version": "7",
-            "when": 1753964975969,
-            "tag": "0002_tidy_dakota_north",
-            "breakpoints": true
-        },
-        {
-            "idx": 3,
-            "version": "7",
-            "when": 1753965937562,
-            "tag": "0003_previous_gamora",
-            "breakpoints": true
-        },
-        {
-            "idx": 4,
-            "version": "7",
-            "when": 1754377260614,
-            "tag": "0004_small_young_avengers",
-            "breakpoints": true
-        },
-        {
-            "idx": 5,
-            "version": "7",
-            "when": 1754720683906,
-            "tag": "0005_organic_sabretooth",
-            "breakpoints": true
-        },
-        {
-            "idx": 6,
-            "version": "7",
-            "when": 1754720752556,
-            "tag": "0006_red_weapon_omega",
-            "breakpoints": true
-        },
-        {
-            "idx": 7,
-            "version": "7",
-            "when": 1754750692932,
-            "tag": "0007_breezy_titanium_man",
-            "breakpoints": true
-        }
-    ]
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1753943635701,
+      "tag": "0000_lucky_peter_quill",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1753944207821,
+      "tag": "0001_loud_black_bolt",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1753964975969,
+      "tag": "0002_tidy_dakota_north",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1753965937562,
+      "tag": "0003_previous_gamora",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1754377260614,
+      "tag": "0004_small_young_avengers",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1754720683906,
+      "tag": "0005_organic_sabretooth",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1754720752556,
+      "tag": "0006_red_weapon_omega",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1754750692932,
+      "tag": "0007_breezy_titanium_man",
+      "breakpoints": true
+    }
+  ]
 }

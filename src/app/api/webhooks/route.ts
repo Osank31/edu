@@ -1,25 +1,25 @@
-import { db } from '@/config/db';
-import { userTable } from '@/config/schema';
-import { verifyWebhook } from '@clerk/nextjs/webhooks';
-import { eq } from 'drizzle-orm';
-import { NextRequest } from 'next/server';
+import { db } from '@/config/db'
+import { userTable } from '@/config/schema'
+import { verifyWebhook } from '@clerk/nextjs/webhooks'
+import { eq } from 'drizzle-orm'
+import { NextRequest } from 'next/server'
 
 export async function POST(req: NextRequest) {
     try {
         const evt = await verifyWebhook(req, {
-            signingSecret: process.env.CLERK_WEBHOOK_SECRET!,
-        });
+            signingSecret: process.env.CLERK_WEBHOOK_SECRET!
+        })
 
-        const { id } = evt.data;
+        const { id } = evt.data
         if (!id) {
             return new Response('Missing user id', { status: 400 });
         }
-        const eventType = evt.type;
+        const eventType = evt.type
         // console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
         // console.log('Webhook payload:', evt.data)
 
         if (eventType === 'user.created') {
-            console.log('userId:', id);
+            console.log('userId:', id)
             // Handle user.created event
             const data = {
                 userId: id,
@@ -27,12 +27,9 @@ export async function POST(req: NextRequest) {
                 email: evt.data.email_addresses[0].email_address,
                 createdAt: new Date(evt.data.created_at),
                 updatedAt: new Date(evt.data.updated_at),
-                provider: evt.data?.external_accounts[0]?.provider,
-            };
-            const user = await db
-                .select()
-                .from(userTable)
-                .where(eq(userTable.email, evt.data.email_addresses[0].email_address));
+                provider: evt.data?.external_accounts[0]?.provider
+            }
+            const user = await db.select().from(userTable).where(eq(userTable.email, evt.data.email_addresses[0].email_address))
             if (user.length > 0) {
                 return new Response('User already exists', { status: 200 });
             }
@@ -40,18 +37,18 @@ export async function POST(req: NextRequest) {
             return new Response('User created', { status: 201 });
         }
         if (eventType === 'user.deleted') {
-            console.log('userId: deleting', id);
-            const user = await db.select().from(userTable).where(eq(userTable.userId, id));
+            console.log('userId: deleting', id)
+            const user = await db.select().from(userTable).where(eq(userTable.userId, id))
             if (user.length === 0) {
-                return new Response('User not found', { status: 404 });
+                return new Response('User not found', { status: 404 })
             }
-            await db.delete(userTable).where(eq(userTable.userId, id));
-            return new Response('User deleted', { status: 200 });
+            await db.delete(userTable).where(eq(userTable.userId, id))
+            return new Response('User deleted', { status: 200 })
         }
 
-        return new Response('Webhook received', { status: 200 });
+        return new Response('Webhook received', { status: 200 })
     } catch (err) {
-        console.error('Error verifying webhook:', err);
-        return new Response('Error verifying webhook', { status: 400 });
+        console.error('Error verifying webhook:', err)
+        return new Response('Error verifying webhook', { status: 400 })
     }
 }
