@@ -31,11 +31,13 @@ import { title } from 'process';
 // }
 
 export const userTable = pgTable('user_table', {
-    id: varchar({ length: 255 }).notNull().default(''),
-    username: varchar({length: 500}).notNull().default(''),
-    email: varchar({length: 255}).notNull().default(''),
+    id: uuid().primaryKey().defaultRandom(),
+    userId: varchar({ length: 255 }).notNull().default(''),
+    username: varchar({length: 500}).default(''),
+    email: varchar({length: 255}),
     createdAt: timestamp().defaultNow().notNull().defaultNow(),
     updatedAt: timestamp().defaultNow().notNull().defaultNow(),
+    provider: varchar({ length: 255 }).notNull().default(''),
 })
 
 export const courseTable = pgTable('course_table', {
@@ -43,11 +45,12 @@ export const courseTable = pgTable('course_table', {
     title: varchar({ length: 50 }).notNull(),
     description: text().notNull(),
     thumbnail: text().default('link'),
-    instructorId: varchar({ length: 255 }).notNull(),
+    instructorId: varchar({ length: 255 }).notNull()
+    .references(()=>userTable.userId, {onDelete: 'cascade'}),
     studentsId: varchar({ length: 255 }).array().default([]),
     createdAt: timestamp().defaultNow().notNull(),
     updatedAt: timestamp().defaultNow().notNull(),
-    userId: varchar({length: 255}).notNull().references(()=>userTable.id, {onDelete: 'cascade'})
+    // userId: varchar({length: 255}).notNull().references(()=>userTable.id, {onDelete: 'cascade'})
 });
 
 export const sectionsTable = pgTable('sections_table', {
