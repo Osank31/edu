@@ -12,7 +12,12 @@ async function getCoursesWithSectionsAndLectures(user: User, courseId?: string) 
     // 1. Fetch courses for instructor, optionally filter by courseId
     const userUUIDs = await db.select({ id: userTable.id }).from(userTable).where(eq(userTable.userId, user.id))
     const userUUID = userUUIDs[0]?.id;
-
+    
+    if (!userUUID) {
+        console.error('User not found in database:', user.id);
+        return Response.error(null, 'User not found', 404);
+    }
+    
     const courseWhereClause = courseId
         ? and(eq(courseTable.instructorId, userUUID), eq(courseTable.id, courseId))
         : eq(courseTable.instructorId, userUUID);
