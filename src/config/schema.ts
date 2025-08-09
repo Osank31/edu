@@ -1,34 +1,4 @@
 import { pgTable, text, uuid, timestamp, json, varchar } from 'drizzle-orm/pg-core';
-import { title } from 'process';
-
-// {
-//     courseTable: {
-//         id : 'hjgushdgbcdshucgdsiuc',
-//         title: 'Introduction to Programming',
-//         description: 'A beginner-friendly course on programming concepts.',
-//         instructorId: 'instructor-123',
-//         studentsId: ['student-1', 'student-2'],
-//         createdAt: '31-07-2025',
-//         updatedAt: '31-07-2025'
-//     },
-//     sectionsTable: {
-//         id: 'section-123',
-//         courseId: 'hjgushdgbcdshucgdsiuc',
-//         title: 'Getting Started with Programming',
-//         description: 'An introduction to the basics of programming.',
-//         createdAt: '31-07-2025',
-//         updatedAt: '31-07-2025'
-//     },
-//     lectureTable: {
-//         id: 'lecture-123',
-//         sectionId: 'section-123',
-//         title: 'Variables and Data Types',
-//         description: 'Understanding variables and different data types in programming.',
-//         videoLink: 'https://example.com/lecture-video',
-//         createdAt: '31-07-2025',
-//         updatedAt: '31-07-2025'
-//     }
-// }
 
 export const userTable = pgTable('user_table', {
     id: uuid().primaryKey().defaultRandom(),
@@ -45,8 +15,7 @@ export const courseTable = pgTable('course_table', {
     title: varchar({ length: 50 }).notNull(),
     description: text().notNull(),
     thumbnail: text().default('link'),
-    instructorId: varchar({ length: 255 }).notNull()
-    .references(()=>userTable.userId, {onDelete: 'cascade'}),
+    instructorId: uuid().notNull().references(() => userTable.id, {onDelete: 'cascade'}),
     studentsId: varchar({ length: 255 }).array().default([]),
     createdAt: timestamp().defaultNow().notNull(),
     updatedAt: timestamp().defaultNow().notNull(),

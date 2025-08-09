@@ -11,6 +11,9 @@ export async function POST(req: NextRequest) {
         })
 
         const { id } = evt.data
+        if (!id) {
+            return new Response('Missing user id', { status: 400 });
+        }
         const eventType = evt.type
         // console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
         // console.log('Webhook payload:', evt.data)
@@ -34,7 +37,13 @@ export async function POST(req: NextRequest) {
             return new Response('User created', { status: 201 });
         }
         if (eventType === 'user.deleted') {
-            console.log('userId:', id)
+            console.log('userId: deleting', id)
+            const user = await db.select().from(userTable).where(eq(userTable.userId, id))
+            if (user.length === 0) {
+                return new Response('User not found', { status: 404 })
+            }
+            await db.delete(userTable).where(eq(userTable.userId, id))
+            return new Response('User deleted', { status: 200 })
         }
 
         return new Response('Webhook received', { status: 200 })
