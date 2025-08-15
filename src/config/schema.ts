@@ -41,6 +41,7 @@ export const lectureTable = pgTable('lecture_table', {
     title: varchar({ length: 50 }).notNull(),
     description: text().notNull(),
     videoLink: text().notNull(),
+    arr: json().default([]),
     createdAt: timestamp().defaultNow().notNull(),
     updatedAt: timestamp().defaultNow().notNull(),
 });
